@@ -7,38 +7,43 @@ using System.Threading.Tasks;
 
 namespace Lab08_PhilsLendingLibrary
 {
-    public class Backpack<T> : IBag<T>
+    public class Backpack : IBag<Book>
     {
-        private List<T> items = new List<T>();
+        private List<Book> Storage;
 
-        public void Pack(T item)
+
+
+        public void Pack(Book item)
         {
-            if (item != null)
-            {
-                items.Add(item);
-            }
+            Storage.Add(item);
         }
 
-        public T Unpack(int index)
+        public Book Unpack(int index)
         {
-            if (index >= 0 && index < items.Count)
+
+            for(int i = 0; i < Storage.Count; i++)
             {
-                var item = items[index];
-                items.RemoveAt(index);
-                return item;
-            }
-
-            return default(T);
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return items.GetEnumerator();
+            Book currentbook = Storage[i];
+                if(index == i)
+                {
+                    return currentbook;
+                }
+            } return null;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            // call the generic version of the method
+            return this.GetEnumerator();
+        }
+
+        public IEnumerator<Book> GetEnumerator()
+        {
+
+            foreach (Book book in Storage)
+            {
+                yield return book;
+            }
         }
     }
 }
